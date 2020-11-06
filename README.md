@@ -1,5 +1,30 @@
+# Prerequisites
+
+This software is a Python script which requires basic CLI commands knowledge. This includes navigation in the file system and invocation of a script.
+
+You need to have Python v2.7+ installed on your system.
+
+NOTE: You must execute this script from an account with Administrator privileges. This is needed to install the underlying video compression script `ffmpeg` (and the `Chocolatey` package manager on Windows required to install it).
+
+# Usage
+
+1. Open a shell terminal (PowerShell terminal on Windows)
+2. Navigate to the directory where the script is contained
+3. Call the script with (`<target_directory_path>` being the relative or absolute path of the directory containing the video files that you want to compress)
+```
+python project_script.py <target_directory_path>
+```
+
+NOTE: If the script has no arguments it will compress every video file in the directory it is in, as well as its subdirectories.
+
+# Windows
+--
+
+# MacOS
+--
 
 # Linux
+## **Error handling**
 
 If you get the following error:
 ```
