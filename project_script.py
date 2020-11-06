@@ -1,7 +1,6 @@
 import sys
 import os
 import subprocess
-import popen2
 
 ROOT_DIRECTORY = ""
 VIDEO_FILE_EXTENSIONS = [".mkv", ".mov", ".mp4"]
@@ -26,8 +25,30 @@ if len(sys.argv) < 2 or len(sys.argv) > 2:
 if len(sys.argv) == 2:
   ROOT_DIRECTORY = sys.argv[1]
 
-does_not_have_ffmpeg = os.system("ffmpeg --version")
+ffmpegVersionCommandString = "ffmpeg --version"
+if sys.platform == "linux" or sys.platform == "linux2":
+  ffmpegVersionCommandString = "ffmpeg -version"
+
+does_not_have_ffmpeg = os.system(ffmpegVersionCommandString)
 if does_not_have_ffmpeg:
   if sys.platform == "win32": installFFmpegOnWindows()
   elif sys.platform == "darwin": installFFmpegOnMacOS()
   elif sys.platform == "linux" or sys.platform == "linux2": installFFmpegOnLinux()
+
+slash = "/"
+if sys.platform == "win32":
+  slash = "\\"
+
+for subdirs, dirs, files in os.walk(ROOT_DIRECTORY):
+  if "Compressed" in subdirs or ".git" in subdirs:
+    continue
+  for file in files:
+    extension = os.path.splitext(file)[-1].lower()
+    if extension not in VIDEO_FILE_EXTENSIONS:
+      continue
+    if not os.path.exists(subdirs + slash + "Compressed"):
+      os.makedirs(subdirs + slash + "Compressed")
+    media_in = subdirs + slash + file
+    media_out = subdirs + slash + "Compressed" + slash + file
+    #print("ffmpeg -i " + media_in + " -vcodec libx264 -crf 24 " + media_out)
+    os.system("ffmpeg -i " + media_in + " -vcodec libx264 -crf 24 " + media_out)
