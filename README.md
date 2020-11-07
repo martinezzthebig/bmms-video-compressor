@@ -4,7 +4,12 @@ This software is a Python script which requires basic CLI commands knowledge. Th
 
 You need to have Python v2.7+ installed on your system.
 
-NOTE: You must execute this script from an account with Administrator privileges. This is needed to install the underlying video compression script `ffmpeg` (and the `Chocolatey` package manager on Windows required to install it).
+# Dependencies
+
+- `ffmpeg` - Windows/Linux/MacOS - needed for the video compression
+- `Chocolatey` - Windows - package manager needed for installing `ffmpeg`
+
+All dependencies will be installed automatically by the script. However if user agreement is needed you will have to do that yourself.
 
 # Usage
 

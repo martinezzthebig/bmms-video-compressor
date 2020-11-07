@@ -5,11 +5,18 @@ import subprocess
 ROOT_DIRECTORY = ""
 VIDEO_FILE_EXTENSIONS = [".mkv", ".mov", ".mp4"]
 
+def runCommandAndGetResult(command):
+  process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+  process.wait()
+  return process.returncode != 0
+
 def installFFmpegOnWindows():
-  subprocess.call([
-    "C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", 
-    ". \"./choco_install\";"
-  ])
+  doesNotHaveChocolatey = runCommandAndGetResult("choco --version")
+  if doesNotHaveChocolatey:
+    subprocess.call([
+      "C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", 
+      ". \"./choco_install\";"
+    ])
   os.system("choco install ffmpeg")
 
 def installFFmpegOnMacOS():
@@ -25,12 +32,8 @@ if len(sys.argv) < 2 or len(sys.argv) > 2:
 if len(sys.argv) == 2:
   ROOT_DIRECTORY = sys.argv[1]
 
-ffmpegVersionCommandString = "ffmpeg --version"
-if sys.platform == "linux" or sys.platform == "linux2":
-  ffmpegVersionCommandString = "ffmpeg -version"
-
-does_not_have_ffmpeg = os.system(ffmpegVersionCommandString)
-if does_not_have_ffmpeg:
+doesNotHaveFFMpeg = runCommandAndGetResult("ffmpeg -version")
+if doesNotHaveFFMpeg:
   if sys.platform == "win32": installFFmpegOnWindows()
   elif sys.platform == "darwin": installFFmpegOnMacOS()
   elif sys.platform == "linux" or sys.platform == "linux2": installFFmpegOnLinux()
@@ -48,7 +51,7 @@ for subdirs, dirs, files in os.walk(ROOT_DIRECTORY):
       continue
     if not os.path.exists(subdirs + slash + "Compressed"):
       os.makedirs(subdirs + slash + "Compressed")
-    media_in = subdirs + slash + file
-    media_out = subdirs + slash + "Compressed" + slash + file
-    #print("ffmpeg -i " + media_in + " -vcodec libx264 -crf 24 " + media_out)
-    os.system("ffmpeg -i " + media_in + " -vcodec libx264 -crf 24 " + media_out)
+    mediaIn = "\"" + subdirs + slash + file + "\""
+    mediaOut = "\"" + subdirs + slash + "Compressed" + slash + file + "\""
+    #print("ffmpeg -i " + mediaIn + " -vcodec libx264 -crf 24 " + mediaOut)
+    os.system("ffmpeg -i " + mediaIn + " -vcodec libx264 -crf 24 " + mediaOut)
