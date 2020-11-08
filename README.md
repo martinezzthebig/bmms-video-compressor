@@ -8,6 +8,7 @@ You need to have Python v2.7+ installed on your system.
 
 - `ffmpeg` - Windows/Linux/MacOS - needed for the video compression
 - `Chocolatey` - Windows - package manager needed for installing `ffmpeg`
+- `Homebrew` - MacOS - package manager needed for installing `ffmpeg`
 
 All dependencies will be installed automatically by the script. However if user agreement is needed you will have to do that yourself.
 
