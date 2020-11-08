@@ -20,7 +20,12 @@ def installFFmpegOnWindows():
   os.system("choco install ffmpeg")
 
 def installFFmpegOnMacOS():
-  os.system("/bin/bash -c '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)'")
+  doesNotHaveHomeBrew = runCommandAndGetResult("brew help")
+  if doesNotHaveHomeBrew:
+    os.system("curl -fsSL -o install.sh https://raw.githubusercontent.com/Homebrew/install/master/install.sh")
+    os.system("/bin/bash install.sh")
+    os.system("rm install.sh")
+    os.system("rm uninstall.sh")
   os.system("brew install ffmpeg")
 
 def installFFmpegOnLinux():
