@@ -23,14 +23,15 @@ python project_script.py <target_directory_path>
 
 NOTE: If the script has no arguments it will compress every video file in the directory it is in, as well as its subdirectories.
 
-# Windows
---
+# Known issues
 
-# MacOS
---
+## Windows
+*None yet.*
 
-# Linux
-## **Error handling**
+## MacOS
+*None yet.*
+
+## Linux
 
 If you get the following error:
 ```
